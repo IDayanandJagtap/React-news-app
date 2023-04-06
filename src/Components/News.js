@@ -47,10 +47,10 @@ class News extends Component {
         this.updateNews();
     }
 
+// This function won't work because it is not an arrow function so props of the parent cha kahitri vishay asto.
     // async fetchMoreData(){
-    //     this.setState({page : this.state.page+1})
-    //     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=fd1a6c4b7f974b108777bcd12fcdb5ea&pageSize=${this.props.pageSize}&page=${this.state.page}`;
-    //     let data = await fetch(url);
+    //     this.setState({ page: this.state.page + 1 });
+    //     let data = await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=fd1a6c4b7f974b108777bcd12fcdb5ea&pageSize=${this.props.pageSize}&page=${this.state.page + 1}`);
     //     data = await data.json();
     //     this.setState({
     //         articles: this.state.articles.concat(data.articles),
@@ -58,40 +58,32 @@ class News extends Component {
     //         loading: false
     //     });
     // }
-    handlePrevOnClick = async () => {
-        this.setState({ page: this.state.page - 1 });
-        this.updateNews();
-    }
-
-    handleNextOnClick = async () => {
+    fetchMoreData = async() =>{
         this.setState({ page: this.state.page + 1 });
-        // We changed the state and incremented the page as well because setState is async function and it takes time to reflect the change
-        // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=fd1a6c4b7f974b108777bcd12fcdb5ea&pageSize=${this.props.pageSize}&page=${this.state.page + 1}`
-        // this.setState({ loading: true })
-        // let data = await fetch(url);
-        // data = await data.json();
-        // this.setState({
-        //     articles: data.articles,
-        //     totalResults: data.totalResults,
-        //     loading: false
-        // });
-        this.updateNews();
+        let data = await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=fd1a6c4b7f974b108777bcd12fcdb5ea&pageSize=${this.props.pageSize}&page=${this.state.page + 1}`);
+        data = await data.json();
+        this.setState({
+            articles: this.state.articles.concat(data.articles),
+            totalResults: data.totalResults,
+            loading: false
+        });
     }
-
     render() {
         return (
-            <div className="container my-4">
+            <>
                 <div className="heading my-4 text-center">
                     <h1>NewsMonk - Top in {this.props.category.charAt(0).toUpperCase() + this.props.category.slice(1)}</h1>
                     {this.state.loading && <Spinner /> }
                 </div>
-                {/* {this.state.articles !== undefined && */}
-                {/* <InfiniteScroll
+                {this.state.articles !== undefined &&
+                <InfiniteScroll
                     dataLength={this.state.articles.length}
                     next={this.fetchMoreData}
                     hasMore={this.state.articles.length !== this.totalResults}
                     loader={<Spinner />}
+                    endMessage= {<p className="text-center" >That's all ... </p>}
                 >
+                <div className="container my-4">
                     <div className="row">
                         {
                             !this.state.loading && this.state.articles.map((elem) => {
@@ -105,12 +97,9 @@ class News extends Component {
 
                         }
                     </div>
-                </InfiniteScroll>} */}
-                <div className="container d-flex justify-content-between my-3">
-                    <button disabled={this.state.page <= 1} className="btn btn-dark btn small" onClick={this.handlePrevOnClick}>&larr; Previous</button>
-                    <button disabled={this.state.page >= Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark btn small" onClick={this.handleNextOnClick}>Next &rarr;</button>
-                </div>
-            </div >
+                    </div >
+                </InfiniteScroll>}
+            </>
         )
     }
 }
