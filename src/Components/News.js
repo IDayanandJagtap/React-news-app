@@ -30,24 +30,27 @@ class News extends Component {
     }
     async updateNews() {
         let url;
+        this.props.setProgress(30);
         this.props.query ? url = `https://newsapi.org/v2/everything?q=${this.props.query}&apiKey=fd1a6c4b7f974b108777bcd12fcdb5ea&pageSize=${this.props.pageSize}&page=${this.state.page}` :
             url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=fd1a6c4b7f974b108777bcd12fcdb5ea&pageSize=${this.props.pageSize}&page=${this.state.page}`;
 
         this.setState({ loading: true })
         let data = await fetch(url);
+        this.props.setProgress(70);
         data = await data.json();
         this.setState({
             articles: data.articles,
             totalResults: data.totalResults,
             loading: false
         });
+        this.props.setProgress(100);
     }
 
     async componentDidMount() {
         this.updateNews();
     }
 
-// This function won't work because it is not an arrow function so props of the parent cha kahitri vishay asto.
+// This function won't work because it is not an arrow function so this is not accessible it creates its own this.
     // async fetchMoreData(){
     //     this.setState({ page: this.state.page + 1 });
     //     let data = await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=fd1a6c4b7f974b108777bcd12fcdb5ea&pageSize=${this.props.pageSize}&page=${this.state.page + 1}`);
