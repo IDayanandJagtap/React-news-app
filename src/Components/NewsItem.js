@@ -1,11 +1,9 @@
-import React, { Component } from "react"
+import React from "react"
 
 
-// API KEY : fd1a6c4b7f974b108777bcd12fcdb5ea
 
-class NewsItem extends Component {
-    render() {
-        let { title, description, urlToImage, urlToNews, author, publishedAt, source } = this.props;
+const NewsItem = (props) => {
+        let { title, description, urlToImage, urlToNews, author, publishedAt, source } = props;
 
         return (
             <div className="card " >
@@ -21,7 +19,6 @@ class NewsItem extends Component {
                 </div>
             </div>
         )
-    }
 }
 
 export default NewsItem;

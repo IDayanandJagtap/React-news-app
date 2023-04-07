@@ -1,26 +1,9 @@
-import React, { Component } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
 
-class Navbar extends Component {
-    constructor() {
-        super();
-        this.state = { query: "" };
-    }
-
-    fetchSearchResult = async (e) => {
-        e.preventDefault();
-        await fetch(`http://localhost:3000/?q=${this.state.query}`)
-        // {
-        //     method: "POST",
-        //     body: JSON.stringify(this.query),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-    }
-
-    render() {
+const Navbar = () => {
         return (
-            <nav className="navbar navbar-expand-lg bg-dark">
+            <nav className="navbar fixed-top navbar-expand-lg bg-dark">
                 <div className="container-fluid">
                     <Link className="navbar-brand text-light" to="/">NewsMonk</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +27,6 @@ class Navbar extends Component {
                 </div>
             </nav>
         )
-    }
 }
 
 
